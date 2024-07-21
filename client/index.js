@@ -33,6 +33,10 @@ for (let index = 0; index < agents.length; index++ ) {
     // create a p tag with the agent name inside of it
     const agentName = document.createElement("p");
     // add the img and p tag as parents of the div
-    
+    imgp.src = "/img/"
+    // i don't know if any of the following code is right
+    imgp.className = ""
+    div.appendChild(imgp)
 // add the div to the page
+    document.getElementById(div);
 };
