@@ -48,7 +48,7 @@ const randomButton = document.createElement('button');
 randomButton.innerText = 'Select Random Agent';
 randomButton.addEventListener('click', () => {
     let random;
-    
+
     if (selected.length) {
         random = Math.floor(Math.random() * selected.length);
         console.log(selected[random])
