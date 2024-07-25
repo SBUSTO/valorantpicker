@@ -20,64 +20,44 @@ const agents = [
     { name: "Yoru", img: "https://placehold.co/100" },
 ];
 
-/**
- * 1. Loop over each agent and render them on the page.
- * 2. Each agent should be selectable when clicked.
- * 3. There should be a button to select all agents when clicked.
- * 4. There should be a button to click "select random agent" that picks an agent from the
- *  agents selected. If no agent is selected, then pick from all agents.
- */
-
-/**
- * Loop over each agent.
- * 
- * Each agent should be rendered on the page and should include:
- *  - Image of agent
- *  - Name of agent
- *  - And be clickable
- *  - Once clicked, it should be stored in memory for future reference.
- * 
- */
-
 const selected = [];
 
-const root = document.querySelector('#top');
-
-const randomButton = document.createElement('button');
-randomButton.innerText = 'Select Random Agent';
+const randomButton = document.querySelector('#random')
 randomButton.addEventListener('click', () => {
     let random;
     let agent;
 
     if (selected.length) {
         random = Math.floor(Math.random() * selected.length);
-        agents = selected[random]
+        agent = selected[random]
     } else {
         random = Math.floor(Math.random() * agents.length);
         agent = agents[random]
     };
-    /**
-     * create a unique ID for div that shows selected agent
-     * check to see if element exists with ID on page
-     * if element exists, replace src attribute with new img and replace p tag inside div with new text
-     * how to select an element inside another element 
-     */
-    
-    // create element and show below h2 selected agent
+
+    const suggestedAgent = document.querySelector('#suggested-agent');
+
+    if ( suggestedAgent instanceof HTMLDivElement) {
+        const image = document.querySelector('#suggested-agent > img');
+        const name = document.querySelector('#suggested-agent > p');
+        image.setAttribute('src', agent.img);
+        name.innerText = agent.name;
+        return;
+    };
+
     const newDiv = document.createElement("div");
+    newDiv.setAttribute('id',  'suggested-agent');
     const agentDisplay = document.createElement("img");
     
-    agentDisplay.setAttribute('src', agentDisplay);
+    agentDisplay.setAttribute('src', agent.img);
     const agentName = document.createElement("p");
     agentName.innerText = agent.name;
     newDiv.appendChild(agentDisplay);
     newDiv.appendChild(agentName);
     const selectedAgent = document.getElementById("selected-agent");
     selectedAgent.after(newDiv);
-
 });
 
-root.appendChild(randomButton);
 
 for (let index = 0; index < agents.length; index++ ) {
     const agent = agents[index];
