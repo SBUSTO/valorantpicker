@@ -3,7 +3,7 @@ box-sizing: border-box;
 }
 
 body {
-    background-color: white;
+    background-color: #2C3E50;
     color: white;
     margin: 0;
 }
@@ -37,7 +37,6 @@ nav {
 
 #agents {
     display: flex;
-    flex: wrap;
 }
 
 #agents button {
@@ -49,6 +48,7 @@ nav {
     margin: 5px;
     padding: 10px;
     cursor: pointer;
+    font-size: 20px;
 }
 
 #agents img {
@@ -58,7 +58,7 @@ nav {
 }
 
 #top {
-    color: black;
+    color: white;
     
 }
 
@@ -72,6 +72,9 @@ nav {
 aside {
     text-align: left;
     padding-left: 75px;
-    color: black;
+    color: white;
 }
 
+.role-logo {
+    height: 30px;
+}
