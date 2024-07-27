@@ -36,16 +36,16 @@ nav {
 }
 
 #agents img {
-    
     height: 55px;
 }
 
 #top {
-
+    color: black;
 }
 
 aside {
     text-align: left;
     padding-left: 75px;
+    color: black;
     
 }
