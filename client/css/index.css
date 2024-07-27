@@ -35,17 +35,43 @@ nav {
     color: white;
 }
 
+#agents {
+    display: flex;
+    flex: wrap;
+}
+
+#agents button {
+    display: flex;
+    align-items: center;
+    background-color: #0192c7;
+    border: none;
+    color: white;
+    margin: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+
 #agents img {
-    height: 55px;
+    margin-right: 10px;
+    max-width: 60px;
+    height: auto;
 }
 
 #top {
     color: black;
+    
+}
+
+
+#agent-img {
+    height: auto;
+    margin-right: 10px;
+    max-width: 60px;
 }
 
 aside {
     text-align: left;
     padding-left: 75px;
     color: black;
-    
 }
+

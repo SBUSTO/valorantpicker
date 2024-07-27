@@ -25,14 +25,14 @@ const selected = [];
 const root = document.querySelector('#top');
 
 const randomButton = document.createElement('button');
-randomButton.innerText = 'Select Random Agent';
+randomButton.innerText = 'Get Random Agent';
 randomButton.addEventListener('click', () => {
     let random;
     let agent;
 
     if (selected.length) {
         random = Math.floor(Math.random() * selected.length);
-        agents = selected[random]
+        agent = selected[random]
     } else {
         random = Math.floor(Math.random() * agents.length);
         agent = agents[random]
@@ -94,3 +94,4 @@ for (let index = 0; index < agents.length; index++ ) {
     const agentWrapper = document.querySelector('#agents');
     agentWrapper.appendChild(wrapper);
 };
+
