@@ -20,25 +20,6 @@ const agents = [
     { name: "Yoru", img: "https://placehold.co/100" },
 ];
 
-/**
- * 1. Loop over each agent and render them on the page.
- * 2. Each agent should be selectable when clicked.
- * 3. There should be a button to select all agents when clicked.
- * 4. There should be a button to click "select random agent" that picks an agent from the
- *  agents selected. If no agent is selected, then pick from all agents.
- */
-
-/**
- * Loop over each agent.
- * 
- * Each agent should be rendered on the page and should include:
- *  - Image of agent
- *  - Name of agent
- *  - And be clickable
- *  - Once clicked, it should be stored in memory for future reference.
- * 
- */
-
 const selected = [];
 
 const root = document.querySelector('#top');
@@ -56,24 +37,35 @@ randomButton.addEventListener('click', () => {
         random = Math.floor(Math.random() * agents.length);
         agent = agents[random]
     };
-    /**
-     * create a unique ID for div that shows selected agent
-     * check to see if element exists with ID on page
-     * if element exists, replace src attribute with new img and replace p tag inside div with new text
-     * how to select an element inside another element 
-     */
+
+    let agentDisplayDiv = document.getElementById('agent-display');
+
+    if (!agentDisplayDiv) {
+        // if it doesnt exist, create and append it to DOM
+        agentDisplayDiv = document.createElement('div');
+        agentDisplayDiv.setAttribute('id', 'agent-display');
+
+        const agentDisplay = document.createElement('img');
+        agentDisplay.setAttribute('id', 'agent-img');
+
+        const agentName = document.createElement('p');
+        agentName.setAttribute('id', 'agent-name');
+
+        agentDisplayDiv.appendChild(agentDisplay);
+        agentDisplayDiv.appendChild(agentName);
+
+        const selectedAgent = document.getElementById("selected-agent");
+        selectedAgent.after(agentDisplayDiv);
+
+    }
+
+    // update contents of existing element
+
+    const agentImg = document.getElementById('agent-img');
+    agentImg.setAttribute('src', "selectedAgent"); // replace selectedAgent with correct image src
     
-    // create element and show below h2 selected agent
-    const newDiv = document.createElement("div");
-    const agentDisplay = document.createElement("img");
-    
-    agentDisplay.setAttribute('src', agentDisplay);
-    const agentName = document.createElement("p");
+    const agentName = document.getElementById('agent-name');
     agentName.innerText = agent.name;
-    newDiv.appendChild(agentDisplay);
-    newDiv.appendChild(agentName);
-    const selectedAgent = document.getElementById("selected-agent");
-    selectedAgent.after(newDiv);
 
 });
 
