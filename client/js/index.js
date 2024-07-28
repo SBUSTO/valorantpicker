@@ -28,6 +28,7 @@ const root = document.querySelector('#top');
 // Get random agent button
 const randomButton = document.createElement('button');
 randomButton.innerText = 'Get Random Agent';
+randomButton.classList.add('random-agent-button');
 randomButton.addEventListener('click', () => {
   let random;
   let agent;

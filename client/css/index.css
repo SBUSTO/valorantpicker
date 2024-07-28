@@ -50,33 +50,10 @@ nav a {
     text-decoration: none;
 }
 
-#agents {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-#agents button {
-    display: flex;
-    align-items: center;
-    background-color: #0192c7;
-    border: none;
-    color: white;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-#agents img {
-    margin-right: 10px;
-    max-width: 60px;
-    height: auto;
-}
 
 #top {
     color: white;
     display: flex;    
-    background-color: black;
 }
 
 
@@ -89,18 +66,31 @@ nav a {
 .agent-img {
     width: 50px;
     height: auto;
+    background-color: #0192C7;
 }
 
 aside {
-    text-align: left;
-    padding-left: 230px;
-    color: white;
+    margin-left: 100px;
+    
 }
 
 .role-logo {
-    height: 30px;
+    height: 40px;
+    display: flex;
 }
 
+.random-agent-button {
+    background-color: #FF4500;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px 0;
+    display: block;
+    width: 300px;
+}
 
 
 @media (max-width: 768px) {
