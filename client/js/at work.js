@@ -1,3 +1,4 @@
+// list of agents
 const agents = [
     { name: "Astra", img: "/client/images/Astra_icon.webp" },
     { name: "Breach", img: "/client/images/breach_icon.webp" },
@@ -22,8 +23,10 @@ const agents = [
 
 const selected = [];
 
+
 const root = document.querySelector('#top');
 
+// get random agent button
 const randomButton = document.createElement('button');
 randomButton.innerText = 'Get Random Agent';
 randomButton.addEventListener('click', () => {
