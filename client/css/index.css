@@ -93,6 +93,15 @@ aside {
 }
 
 
+.role-container {
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+}
+
+aside { 
+    
+
 @media (max-width: 768px) {
     #agents button {
         width: calc(100% 2 - 20px);
