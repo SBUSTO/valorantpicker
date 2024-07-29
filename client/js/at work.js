@@ -23,6 +23,29 @@ const agents = [
 
 const selected = [];
 
+const roleContainers = {
+    Controller: document.getElementById('controller'),
+    Initiator: document.getElementById('initiator'),
+    Sentinel: document.getElementById('sentinel'),
+    Duelist: document.getElementById('duelist'),
+}
+
+//function to select all agents of a given role
+function selectAllAgents(role) {
+    const agentsOfRole = agents.filter(agent => agent.type === role);
+    agentsOfRole.forEach(agent => {
+        if (!selected.includes(agent)) {
+            selected.push(agent);
+        }
+    });
+    console.log('Selected agents for ${role}', selected);
+}
+
+//add event listeners to "select all" buttons
+document.getElementById('select-all-controller').addEventListener('click', () => selectAllAgents('Controller'));
+document.getElementsById('select-all-initiator').addEventListener('click', () => selectAllAgents('Initiator'));
+document.getElementById('select-all-sentinel').addEventListener('click', () => selectAllAgents('Sentinel'));
+document.getElementById('select-all-duelist').addEventListener('click', () => selectAllAgents('Duelist'));
 
 const root = document.querySelector('#top');
 
@@ -72,7 +95,35 @@ randomButton.addEventListener('click', () => {
 
 });
 
+agents.forEach(agent => {
+    const wrapper = document.createElement('button');
+    const id = `agent-${agent.name.toLowerCase()}`;
+    const agentImage = document.createElement('img');
+    agentImage.setAttribute('src', agent.img);
+    agentImage.classList.add('agent-img');
+    const agentName = document.createElement('p');
+    agentName.innerText = agent.name;
+    wrapper.appendChild(agentImage);
+    wrapper.appendChild(agentName);
+    wrapper.addEventListener('click', () => {
+        if (!selected.includes(agent)) {
+            selected.push(agent);
+        } else {
+            const index = selected.indexOf(agent);
+            selected.splice(index, 1);
+        }
+        console.log('Selected Agents:', selected);
+    });
+    const roleContainer = roleContainers[agent.type];
+    if (roleContainer) {
+        roleContainer.appendChild(wrapper);
+    } else {
+        console.error('No container found for role:', agent.type);
+    }
+});
+
 root.appendChild(randomButton);
+
 
 for (let index = 0; index < agents.length; index++ ) {
     const agent = agents[index];
