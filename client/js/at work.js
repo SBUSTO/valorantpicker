@@ -36,6 +36,7 @@ function selectAllAgents(role) {
     agentsOfRole.forEach(agent => {
         if (!selected.includes(agent)) {
             selected.push(agent);
+            document.getElementById(`agent-${agent.name.toLowerCase()}`).classList.add('selected');
         }
     });
     console.log('Selected agents for ${role}', selected);
@@ -43,7 +44,7 @@ function selectAllAgents(role) {
 
 //add event listeners to "select all" buttons
 document.getElementById('select-all-controller').addEventListener('click', () => selectAllAgents('Controller'));
-document.getElementsById('select-all-initiator').addEventListener('click', () => selectAllAgents('Initiator'));
+document.getElementById('select-all-initiator').addEventListener('click', () => selectAllAgents('Initiator'));
 document.getElementById('select-all-sentinel').addEventListener('click', () => selectAllAgents('Sentinel'));
 document.getElementById('select-all-duelist').addEventListener('click', () => selectAllAgents('Duelist'));
 
@@ -97,7 +98,7 @@ randomButton.addEventListener('click', () => {
 
 agents.forEach(agent => {
     const wrapper = document.createElement('button');
-    const id = `agent-${agent.name.toLowerCase()}`;
+    wrapper.setAttribute('id', `agent-${agent.name.toLowerCase()}`);
     const agentImage = document.createElement('img');
     agentImage.setAttribute('src', agent.img);
     agentImage.classList.add('agent-img');
@@ -108,9 +109,11 @@ agents.forEach(agent => {
     wrapper.addEventListener('click', () => {
         if (!selected.includes(agent)) {
             selected.push(agent);
+            wrapper.classList.add('selected');
         } else {
             const index = selected.indexOf(agent);
             selected.splice(index, 1);
+            wrapper.classList.remove('selected');
         }
         console.log('Selected Agents:', selected);
     });
