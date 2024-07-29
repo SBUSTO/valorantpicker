@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VALORANT AGENT PICKER</title>
+    <link rel="stylesheet" href="/client/css/index.css">
+</head>
+<body>
+    <header>
+        <img src="/client/images/VAL-LOGO.png" class="v-logo">
+        <h1 class="title">VALORANT AGENT PICKER</h1>
+        <nav>
+            <ul>
+                <a href="/client/html/about.html">About</a>
+                <a href="https://github.com/SBUSTO">GitHub</a>
+                <a href="https://ko-fi.com/o__0xD">Buy me a coffee!</a>
+            </ul>
+        </nav>
+    </header>
+    <section>
+        <aside>
+            <h2 id="selected-agent">You should play</h2>
+        </aside>
+    </section>
+    <section id="top">
+        <!--Dynamically generated content here-->
+    </section>
+    <div>
+        <h2>Filter Agents</h2>
+        <p>Select the agents you wish to play and click in the "Get Random Agent" button to get a random agent from the selected ones.</p>
+        <p>You have no agents selected, so all agents are being considered by default.</p>
+    </div>
+    <div id="filter-agents">
+        <div id="categories-container">
+        <div id="controller" class="role-container">
+            <img src="/client//images/ControllerClassSymbol.webp" class="role-logo">
+            <br>
+            <h3>Controller</h3>
+            <button id="select-all-controller">Select All</button>
+            <button type="button">Unselect All</button>
+        </div>
+        <div id="initiator" class="role-container">
+            <img src="/client//images/InitiatorClassSymbol.webp" class="role-logo">
+            <h3>Initiator</h3>
+            <button id="select-all-initiator">Select All</button>
+            <button>Unselect All</button>
+            <br>
+        </div>
+        <div id="sentinel" class="role-container">
+            <img src="/client//images/SentinelClassSymbol.webp" class="role-logo">
+            <h3>Sentinel</h3>
+            <button id="select-all-sentinel">Select All</button>
+            <button type="button">Unselect All</button>
+            <br>
+        </div>
+        <div id="duelist" class="role-container">
+            <img src="/client//images/4987-duelist-valorant.png" class="role-logo">
+            <h3>Duelist</h3>
+            <button id="select-all-duelist">Select All</button>
+            <button type="button">Unselect All</button>
+            <br>
+        </div>
+        </div>
+    </div>
+    <script src="/client/js/index.js"></script>
+</body>
+</html>
