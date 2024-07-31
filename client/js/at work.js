@@ -1,3 +1,4 @@
+
 // list of agents
 const agents = [
     { name: "Astra", type: "Controller", img: "/client/images/Astra_icon.webp" },
@@ -23,6 +24,8 @@ const agents = [
 
 const selected = [];
 
+const unselected = [];
+
 const roleContainers = {
     Controller: document.getElementById('controller'),
     Initiator: document.getElementById('initiator'),
@@ -39,7 +42,7 @@ function selectAllAgents(role) {
             document.getElementById(`agent-${agent.name.toLowerCase()}`).classList.add('selected');
         }
     });
-    console.log('Selected agents for ${role}', selected);
+    console.log(`Selected agents for ${role}`, selected);
 }
 
 //add event listeners to "select all" buttons
@@ -47,6 +50,25 @@ document.getElementById('select-all-controller').addEventListener('click', () =>
 document.getElementById('select-all-initiator').addEventListener('click', () => selectAllAgents('Initiator'));
 document.getElementById('select-all-sentinel').addEventListener('click', () => selectAllAgents('Sentinel'));
 document.getElementById('select-all-duelist').addEventListener('click', () => selectAllAgents('Duelist'));
+
+//function to deselect all agents of a given role
+function unselectAllAgents(role) { 
+    const agentsOfRole = agents.filter(agent => agent.type === role);
+    agentsOfRole.forEach(agent => {
+        const index = selected.indexOf(agent);
+        if (index !== 1) {
+            selected.splice(index, 1);
+            document.getElementById(`agent-${agent.name.toLowerCase()}`).classList.remove('selected');
+        }
+    });
+    console.log(`Unselected agents for ${role}`, unselected);
+}
+
+//add event listeners to "deselect all" buttons
+document.getElementById('unselect-all-controller').addEventListener('click', () => unselectAllAgents('Controller'));
+document.getElementById('unselect-all-initiator').addEventListener('click', () => unselectAllAgents('Initiator'));
+document.getElementById('unselect-all-sentinel').addEventListener('click', () => unselectAllAgents('Seintinel'));
+document.getElementById('unselect-all-duelist').addEventListener('click', () => unselectAllAgents('Duelist'));
 
 const root = document.querySelector('#top');
 

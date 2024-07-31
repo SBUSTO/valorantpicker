@@ -97,6 +97,7 @@ nav a:hover {
     transition: transform 0.3s ease;
 }
 
+.agent-img 
 
 .agent-img:hover {
     transform: scale(1.1);
@@ -106,6 +107,7 @@ aside {
     margin-left: 130px;
     padding: 20px;
     border-radius: 10px;
+    align-content: center;
 
     
 }
@@ -129,6 +131,7 @@ aside {
     display: block;
     text-align: center;
     width: 300px;
+    margin-left: 50px;
 }
 
 
@@ -146,9 +149,6 @@ aside {
     margin-bottom: 10px;
 }
 
-aside { 
-
-}
 
 .select-all-buttons {
     display: flex;
@@ -159,12 +159,13 @@ aside {
     color: white;
 }
 
-.agents {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 100px;
-}
 
+#main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -120px;
+}
 @media (max-width: 768px) {
     #agents button {
         width: calc(100% 2 - 20px);
