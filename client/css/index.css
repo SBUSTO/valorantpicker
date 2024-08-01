@@ -93,7 +93,6 @@ nav a:hover {
 .agent-img {
     width: 50px;
     height: auto;
-    background-color: #0192C7;
     transition: transform 0.3s ease;
 }
 

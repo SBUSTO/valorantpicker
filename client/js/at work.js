@@ -1,3 +1,30 @@
+async function app(){
+
+//function to fetch data from the API
+async function fetchData() {
+    fetch('https://valorant-api.com/v1/agents')
+    .then (response => response.json())
+    .then (data => {
+        agentData = data.data;
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+}
+
+    let agentData = [];
+
+//function to display selected-agents portrait
+function displaySelectedAgent(agent) {
+    const selectedAgentContainer = document.getElementById('portait');
+    selectedAgentContainer.innerHTML = `
+        <img class="selected-agent-portrait" src="${agent.fullPortrait}" alt="${agent.displayName}">
+        <p>${agent.displayName}</p>
+        `
+}
+
+//call function
+await fetchData();
 
 // list of agents
 const agents = [
@@ -21,6 +48,7 @@ const agents = [
     { name: "Viper", type: "Controller", img: "/client/images/viper_icon.webp" },
     { name: "Yoru", type: "Duelist", img: "/client/images/yoru_icon.webp" },
 ];
+
 
 const selected = [];
 
@@ -87,6 +115,8 @@ randomButton.addEventListener('click', () => {
         agent = agents[random]
     };
 
+    console.log(agent);
+
     let agentDisplayDiv = document.getElementById('agent-display');
 
     if (!agentDisplayDiv) {
@@ -111,14 +141,17 @@ randomButton.addEventListener('click', () => {
     // update contents of existing element
 
     const agentImg = document.getElementById('agent-img');
-    agentImg.setAttribute('src', agent.img); // replace selectedAgent with correct image src
+    agentImg.setAttribute('src', agent.fullPortrait); // replace selectedAgent with correct image src
     
     const agentName = document.getElementById('agent-name');
     agentName.innerText = agent.name;
 
 });
 
+
 agents.forEach(agent => {
+    const apiAgent = agentData.find((a)=> a.displayName == agent.name);
+    if (apiAgent) agent.fullPortrait = apiAgent.fullPortrait;
     const wrapper = document.createElement('button');
     wrapper.setAttribute('id', `agent-${agent.name.toLowerCase()}`);
     const agentImage = document.createElement('img');
@@ -173,4 +206,5 @@ for (let index = 0; index < agents.length; index++ ) {
     const agentWrapper = document.querySelector('#agents');
     agentWrapper.appendChild(wrapper);
 };
-
+}
+app();
