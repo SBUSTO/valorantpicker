@@ -1,3 +1,31 @@
+async function app(){
+
+//function to fetch data from the API
+async function fetchData() {
+    fetch('https://valorant-api.com/v1/agents')
+    .then (response => response.json())
+    .then (data => {
+        agentData = data.data;
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+}
+
+    let agentData = [];
+
+//function to display selected-agents portrait
+function displaySelectedAgent(agent) {
+    const selectedAgentContainer = document.getElementById('portait');
+    selectedAgentContainer.innerHTML = `
+        <img class="selected-agent-portrait" src="${agent.fullPortrait}" alt="${agent.displayName}">
+        <p>${agent.displayName}</p>
+        `
+}
+
+//call function
+await fetchData();
+
 // list of agents
 const agents = [
     { name: "Astra", type: "Controller", img: "/client/images/Astra_icon.webp" },
@@ -21,7 +49,10 @@ const agents = [
     { name: "Yoru", type: "Duelist", img: "/client/images/yoru_icon.webp" },
 ];
 
+
 const selected = [];
+
+const unselected = [];
 
 const roleContainers = {
     Controller: document.getElementById('controller'),
@@ -36,16 +67,36 @@ function selectAllAgents(role) {
     agentsOfRole.forEach(agent => {
         if (!selected.includes(agent)) {
             selected.push(agent);
+            document.getElementById(`agent-${agent.name.toLowerCase()}`).classList.add('selected');
         }
     });
-    console.log('Selected agents for ${role}', selected);
+    console.log(`Selected agents for ${role}`, selected);
 }
 
 //add event listeners to "select all" buttons
 document.getElementById('select-all-controller').addEventListener('click', () => selectAllAgents('Controller'));
-document.getElementsById('select-all-initiator').addEventListener('click', () => selectAllAgents('Initiator'));
+document.getElementById('select-all-initiator').addEventListener('click', () => selectAllAgents('Initiator'));
 document.getElementById('select-all-sentinel').addEventListener('click', () => selectAllAgents('Sentinel'));
 document.getElementById('select-all-duelist').addEventListener('click', () => selectAllAgents('Duelist'));
+
+//function to deselect all agents of a given role
+function unselectAllAgents(role) { 
+    const agentsOfRole = agents.filter(agent => agent.type === role);
+    agentsOfRole.forEach(agent => {
+        const index = selected.indexOf(agent);
+        if (index !== 1) {
+            selected.splice(index, 1);
+            document.getElementById(`agent-${agent.name.toLowerCase()}`).classList.remove('selected');
+        }
+    });
+    console.log(`Unselected agents for ${role}`, unselected);
+}
+
+//add event listeners to "deselect all" buttons
+document.getElementById('unselect-all-controller').addEventListener('click', () => unselectAllAgents('Controller'));
+document.getElementById('unselect-all-initiator').addEventListener('click', () => unselectAllAgents('Initiator'));
+document.getElementById('unselect-all-sentinel').addEventListener('click', () => unselectAllAgents('Seintinel'));
+document.getElementById('unselect-all-duelist').addEventListener('click', () => unselectAllAgents('Duelist'));
 
 const root = document.querySelector('#top');
 
@@ -63,6 +114,8 @@ randomButton.addEventListener('click', () => {
         random = Math.floor(Math.random() * agents.length);
         agent = agents[random]
     };
+
+    console.log(agent);
 
     let agentDisplayDiv = document.getElementById('agent-display');
 
@@ -88,16 +141,19 @@ randomButton.addEventListener('click', () => {
     // update contents of existing element
 
     const agentImg = document.getElementById('agent-img');
-    agentImg.setAttribute('src', agent.img); // replace selectedAgent with correct image src
+    agentImg.setAttribute('src', agent.fullPortrait); // replace selectedAgent with correct image src
     
     const agentName = document.getElementById('agent-name');
     agentName.innerText = agent.name;
 
 });
 
+
 agents.forEach(agent => {
+    const apiAgent = agentData.find((a)=> a.displayName == agent.name);
+    if (apiAgent) agent.fullPortrait = apiAgent.fullPortrait;
     const wrapper = document.createElement('button');
-    const id = `agent-${agent.name.toLowerCase()}`;
+    wrapper.setAttribute('id', `agent-${agent.name.toLowerCase()}`);
     const agentImage = document.createElement('img');
     agentImage.setAttribute('src', agent.img);
     agentImage.classList.add('agent-img');
@@ -108,9 +164,11 @@ agents.forEach(agent => {
     wrapper.addEventListener('click', () => {
         if (!selected.includes(agent)) {
             selected.push(agent);
+            wrapper.classList.add('selected');
         } else {
             const index = selected.indexOf(agent);
             selected.splice(index, 1);
+            wrapper.classList.remove('selected');
         }
         console.log('Selected Agents:', selected);
     });
@@ -148,4 +206,5 @@ for (let index = 0; index < agents.length; index++ ) {
     const agentWrapper = document.querySelector('#agents');
     agentWrapper.appendChild(wrapper);
 };
-
+}
+app();
