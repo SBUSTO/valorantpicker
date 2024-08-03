@@ -16,7 +16,7 @@ async function fetchData() {
 
 //function to display selected-agents portrait
 function displaySelectedAgent(agent) {
-    const selectedAgentContainer = document.getElementById('portait');
+    const selectedAgentContainer = document.getElementById('portrait');
     selectedAgentContainer.innerHTML = `
         <img class="selected-agent-portrait" src="${agent.fullPortrait}" alt="${agent.displayName}">
         <p>${agent.displayName}</p>
@@ -103,6 +103,7 @@ const root = document.querySelector('#top');
 // get random agent button
 const randomButton = document.createElement('button');
 randomButton.innerText = 'Get Random Agent';
+randomButton.classList.add('random-agent-button')
 randomButton.addEventListener('click', () => {
     let random;
     let agent;
