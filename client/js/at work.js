@@ -6,6 +6,7 @@ async function fetchData() {
     .then (response => response.json())
     .then (data => {
         agentData = data.data;
+        console.log('Fetched agent data:', agentData);
     })
     .catch(error => {
         console.error('Error fetching data:', error);
@@ -20,7 +21,8 @@ function displaySelectedAgent(agent) {
     selectedAgentContainer.innerHTML = `
         <img class="selected-agent-portrait" src="${agent.fullPortrait}" alt="${agent.displayName}">
         <p>${agent.displayName}</p>
-        `
+        `;
+        console.log('Displayed agent:', agent);
 }
 
 //call function
@@ -107,6 +109,16 @@ randomButton.classList.add('random-agent-button')
 randomButton.addEventListener('click', () => {
     let random;
     let agent;
+
+root.appendChild(randomButton);
+
+//ensure there is a container to display selected agent's portrait
+let portraitContainer = document.getElementById('portrait');
+if (!portraitContainer) {
+    portraitContainer = document.createElement('div');
+    portraitContainer.setAttribute('id', 'portrait');
+    root.appendChild(portraitContainer);
+}
 
     if (selected.length) {
         random = Math.floor(Math.random() * selected.length);
