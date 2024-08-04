@@ -1,54 +1,97 @@
-async function app() {
 
-    const agentMetaData = {
-        "Astra": { name: "Astra", type: "Controller", img: "/client/images/Astra_icon.webp" },
-        "Breach": { name: "Breach", type: "Initiator", img: "/client/images/breach_icon.webp" },
-        "Brimstone": { name: "Brimstone", type: "Controller", img: "/client/images/brimstone_icon.webp" },
-        "Clove": { name: "Clove", type: "Controller", img: "/client/images/clove_icon.webp" },
-        "Cypher": { name: "Cypher", type: "Sentinel", img: "/client/images/cypher_icon.webp" },
-        "Jett": { name: "Jett", type: "Duelist", img: "/client/images/jett_icon.webp" },
-        "KAY/O": { name: "KAY/O", type: "Initiator", img: "/client/images/kayo_icon.webp" },
-        "Killjoy": { name: "Killjoy", type: "Sentinel", img: "/client/images/killjoy_icon.webp" },
-        "Neon": { name: "Neon", type: "Duelist", img: "/client/images/neon_icon.webp" },
-        "Omen": { name: "Omen", type: "Controller", img: "/client/images/omen_icon.webp" },
-        "Phoenix": { name: "Phoenix", type: "Duelist", img: "/client/images/phoenix_icon.webp" },
-        "Raze": { name: "Raze", type: "Duelist", img: "/client/images/raze_icon.webp" },
-        "Reyna": { name: "Reyna", type: "Duelist", img: "/client/images/reyna_icon.webp" },
-        "Sage": { name: "Sage", type: "Sentinel", img: "/client/images/sage_icon.webp" },
-        "Skye": { name: "Skye", type: "Initiator", img: "/client/images/skye_icon.webp" },
-        "Sova": { name: "Sova", type: "Initiator", img: "/client/images/sova_icon.webp" },
-        "Viper": { name: "Viper", type: "Controller", img: "/client/images/viper_icon.webp" },
-        "Yoru": { name: "Yoru", type: "Duelist", img: "/client/images/yoru_icon.webp" },
-    }
+/**
+ * This function is responsible for initializing the JavaScript required
+ * to run the application by:
+ * 
+ * - Fetching required data to show agents.
+ * - Generate dynamic HTML nodes and their attributes.
+ * - Initialize event listeners and their callbacks once events are invoked.
+ */
+async function App() {
 
-  //function to fetch data from the API
-  async function fetchData() {
-    const response = await fetch("https://valorant-api.com/v1/agents");
-    const { status, data } = await response.json()
-    return data
-  }
+  /**
+   * We are missing some data from the API required for categorizing our agents by type.
+   * For now, we have a Key/Value store that will keep any metadata and we will match
+   * the data by using the agents name to associate the data from the API with our metadata.
+   * 
+   * In the future, we should just create our own API endpoint that returns all the data needed.
+   * We can do it better ourselves!
+   */
+  const agentMetaData = {
+    Astra: { type: "Controller" },
+    Breach: { type: "Initiator" },
+    Brimstone: { type: "Controller" },
+    Clove: { type: "Controller" },
+    Cypher: { type: "Sentinel" },
+    Jett: { type: "Duelist" },
+    "KAY/O": {type: "Initiator" },
+    Killjoy: { type: "Sentinel" },
+    Neon: { type: "Duelist" },
+    Omen: { type: "Controller" },
+    Phoenix: { type: "Duelist" },
+    Raze: {type: "Duelist" },
+    Reyna: { type: "Duelist" },
+    Sage: { type: "Sentinel" },
+    Skye: { type: "Initiator" },
+    Sova: { type: "Initiator" },
+    Viper: { type: "Controller" },
+    Yoru: { type: "Duelist" },
+  };
 
-    //call function
-  let agentData =  await fetchData();
+  /**
+   * Retrieves agent data from valorant-api.com for populating
+   * UI with agents.
+   * 
+   * @returns {Promise<Array>} Agents
+   */
+
+  // this comment above ^^  probably looks weird. It's JSDocs, it's a standard way to document your JavaScript https://jsdoc.app/about-getting-started
+  const getAgents = async () => {
   
-  console.log(agentData)
-  //function to display selected-agents portrait
-  function displaySelectedAgent(agent) {
-      const selectedAgentContainer = document.getElementById('portrait');
-      selectedAgentContainer.innerHTML = `
-          <img class="selected-agent-portrait" src="${agent.fullPortrait}" alt="${agent.displayName}">
-          <p>${agent.displayName}</p>
-          `;
-          console.log('Displayed agent:', agent);
-  }
+    const response = await fetch("https://valorant-api.com/v1/agents");
+    const { status, data } = await response.json(); // destructing the status and data from response (https://www.w3schools.com/js/js_destructuring.asp)
+
+    /**
+     * If no data returned or no status code then wtf? That is poor etiquette. Let's just return an empty array.
+     * The API is probably down or something weird.
+     */
+    if ( !data || !status ) {
+        console.error('Received unexpected response from API.');
+        return [];
+    };
+
+    /**
+     * If the status code is not "OK" (https://umbraco.com/knowledge-base/http-status-codes/#200-ok)
+     * lets return an empty array here too.
+     * 
+     * Reasoning behind returning an empty array here is because then we guarantee that no matter what we
+     * are returning the same type of data no matter what.
+     * 
+     * This means that in other places in our code where we might want to use this function, we know that
+     * no matter what, we can iterate over the returned data and use Array methods on it (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array#instance_methods).
+     * 
+     * If we were sometimes getting a String back and then other times getting a Object back and then other times getting an Array back, now it's more unpredictable and not safe for other people to use.
+     * 
+     * If they were expecting an Array that they wanted to use Array.forEach on and then got back a Number,
+     * when they do Number.forEach, it would fail because the .forEach method does not exist on the data type of Number.
+     * 
+     * If we did not do this then anyone who consumes the data returned from the function would have to check for the data type first
+     * before using the data to be safe and do "data gymnastics" and start to have trust issues with your code.
+     * (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#browser_compatibility)
+     * 
+     */
+
+    if ( status < 200 || status >= 300 ) {
+      console.log('Wrong status')
+      return [];
+    };
+
+    return data
+  };
 
 
-
-  // list of agents
-  const agents = agentData;
-
+  const agents = await getAgents();
   const selected = [];
-
   const unselected = [];
 
   const roleContainers = {
@@ -58,21 +101,32 @@ async function app() {
     Duelist: document.getElementById("duelist"),
   };
 
-  //function to select all agents of a given role
   function selectAllAgents(role) {
-    const agentsOfRole = agents.filter((agent) => agent.type === role);
+
+    const agentsOfRole = agents.filter((agent) => {
+      /**
+       * Remember, we are doing some "tricks" to add types to our agents. This data is not guaranteed
+       * because it not returned by the API we are using. If we try to access the agent.type property
+       * and it does not exist, our code will fail.
+       * 
+       * We are using optional chaining here to safely access the agent.type property.
+       * 
+       * (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining)
+       */
+      return agent?.type === role 
+    });
+
     agentsOfRole.forEach((agent) => {
+
       if (!selected.includes(agent)) {
         selected.push(agent);
         document
           .getElementById(`agent-${agent.displayName}`)
           .classList.add("selected");
-      }
+      };
     });
-    console.log(`Selected agents for ${role}`, selected);
-  }
+  };
 
-  //add event listeners to "select all" buttons
   document
     .getElementById("select-all-controller")
     .addEventListener("click", () => selectAllAgents("Controller"));
@@ -86,7 +140,6 @@ async function app() {
     .getElementById("select-all-duelist")
     .addEventListener("click", () => selectAllAgents("Duelist"));
 
-  //function to deselect all agents of a given role
   function unselectAllAgents(role) {
     const agentsOfRole = agents.filter((agent) => agent.type === role);
     agentsOfRole.forEach((agent) => {
@@ -101,7 +154,6 @@ async function app() {
     console.log(`Unselected agents for ${role}`, unselected);
   }
 
-  //add event listeners to "deselect all" buttons
   document
     .getElementById("unselect-all-controller")
     .addEventListener("click", () => unselectAllAgents("Controller"));
@@ -116,9 +168,8 @@ async function app() {
     .addEventListener("click", () => unselectAllAgents("Duelist"));
 
   const root = document.querySelector("#top");
-
-  // get random agent button
   const randomButton = document.createElement("button");
+
   randomButton.innerText = "Get Random Agent";
   randomButton.classList.add("random-agent-button");
   randomButton.addEventListener("click", () => {
@@ -127,13 +178,14 @@ async function app() {
 
     root.appendChild(randomButton);
 
-    //ensure there is a container to display selected agent's portrait
+    // ensure there is a container to display selected agent's portrait
     let portraitContainer = document.getElementById("portrait");
+
     if (!portraitContainer) {
       portraitContainer = document.createElement("div");
       portraitContainer.setAttribute("id", "portrait");
       root.appendChild(portraitContainer);
-    }
+    };
 
     if (selected.length) {
       random = Math.floor(Math.random() * selected.length);
@@ -141,14 +193,12 @@ async function app() {
     } else {
       random = Math.floor(Math.random() * agents.length);
       agent = agents[random];
-    }
-
-    console.log(agent);
+    };
 
     let agentDisplayDiv = document.getElementById("agent-display");
 
     if (!agentDisplayDiv) {
-      // if it doesnt exist, create and append it to DOM
+      // if it doesn't exist, create and append it to DOM
       agentDisplayDiv = document.createElement("div");
       agentDisplayDiv.setAttribute("id", "agent-display");
 
@@ -163,50 +213,73 @@ async function app() {
 
       const selectedAgent = document.getElementById("selected-agent");
       selectedAgent.after(agentDisplayDiv);
-    }
+    };
 
-    // update contents of existing element
     const agentImg = document.getElementById("agent-img");
-    agentImg.setAttribute("src", agent.fullPortrait); // replace selectedAgent with correct image src
+    agentImg.setAttribute("src", agent.fullPortrait);
 
     const agentName = document.getElementById("agent-name");
     agentName.innerText = agent.displayName;
+
   });
 
   agents.forEach((agent) => {
-        if (agentMetaData[agent.displayName]) {
-            agent.type = agentMetaData[agent.displayName].type
-        }
-        const wrapper = document.createElement("button");
-        wrapper.setAttribute("id", `agent-${agent.displayName}`);
-        const agentImage = document.createElement("img");
-        agentImage.setAttribute("src", agent.fullPortrait);
-        agentImage.classList.add("agent-img");
-        const agentName = document.createElement("p");
-        agentName.innerText = agent.displayName;
-        wrapper.appendChild(agentImage);
-        console.log(wrapper)
-        wrapper.appendChild(agentName);
-        wrapper.addEventListener("click", () => {
-          if (!selected.includes(agent)) {
-            selected.push(agent);
-            wrapper.classList.add("selected");
-          } else {
-            const index = selected.indexOf(agent);
-            selected.splice(index, 1);
-            wrapper.classList.remove("selected");
-          }
-          console.log("Selected Agents:", selected);
-        });
-        const roleContainer = roleContainers[agent.type];
-        if (roleContainer) {
-          roleContainer.appendChild(wrapper);
-        } else {
-          console.error("No container found for role:", agent.type);
-        }
+
+    /**
+     * Instead of using the Array of agents and filtering, looping and sorting through the available
+     * agents and hoping for a match, we are using an Object AKA Map for our data.
+     * 
+     * The data type you use matters when designing your code. For example, if I want to track a list
+     * of events and replay them in exact the order the happened, an Array would be perfect for that.
+     * 
+     * An array is not the best data type for this logic. Think about if we had 100 million agents and
+     * we wanted to find the agent that has the same name as the agent we are focusing on, like below.
+     * We would need to search in 100 million indexes.
+     * 
+     * The reason we prefer a Map for our data here instead of an Array is because we can get the data we
+     * need easily and quickly without having to loop or do any "data gymnastics".
+     * 
+     * With Objects we store data in key value pairs and anytime we want to access that data, all we need
+     * is the key. So if we want to get any data for an agent, we can use the agent name as the key. This way,
+     * we do not need to loop or search for data and match it up.
+     */
+    if (agentMetaData[agent.displayName]) {
+        agent.type = agentMetaData[agent.displayName].type
+    };
+
+    const wrapper = document.createElement("button");
+    wrapper.setAttribute("id", `agent-${agent.displayName}`);
+    const agentImage = document.createElement("img");
+    agentImage.setAttribute("src", agent.fullPortrait);
+    agentImage.classList.add("agent-img");
+    const agentName = document.createElement("p");
+    agentName.innerText = agent.displayName;
+    wrapper.appendChild(agentImage);
+    wrapper.appendChild(agentName);
+
+    wrapper.addEventListener("click", () => {
+
+      if (!selected.includes(agent)) {
+        selected.push(agent);
+        wrapper.classList.add("selected");
+      } else {
+        const index = selected.indexOf(agent);
+        selected.splice(index, 1);
+        wrapper.classList.remove("selected");
+      };
+    });
+
+    const roleContainer = roleContainers[agent?.type];
+
+    if (roleContainer) {
+      roleContainer.appendChild(wrapper);
+    } else {
+      console.error("No container found for role:", agent?.type);
+    };
 
   });
 
   root.appendChild(randomButton);
-}
-app();
+};
+
+App();
