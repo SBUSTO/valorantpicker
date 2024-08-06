@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VALORANT AGENT PICKER</title>
+    <!--
+        Added website meta description for SEO. https://developers.google.com/search/docs/crawling-indexing/special-tags
+        There are many more meta tags needed.
+    -->
+    <meta name="description" content="Valorant Agent Picker/Randomizer.">
     <link rel="stylesheet" href="/client/css/index.css">
 </head>
 <body>
@@ -12,9 +17,16 @@
         <h1 class="title">VALORANT AGENT PICKER</h1>
         <nav>
             <ul>
-                <a href="/client/html/about.html">About</a>
-                <a href="https://github.com/SBUSTO">GitHub</a>
-                <a href="https://ko-fi.com/o__0xD">Buy me a coffee!</a>
+                <a href="#">About</a>
+                <!--
+                    Specifying that we want these external links to be opened in another tab
+                    and not to trust them.
+
+                    https://www.w3schools.com/tags/att_a_target.asp
+                    https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel/noopener
+                -->
+                <a target="_blank" href="https://github.com/SBUSTO" rel="noreferrer">GitHub</a>
+                <a target="_blank"  href="https://ko-fi.com/o__0xD" rel="noreferrer">Buy me a coffee!</a>
             </ul>
         </nav>
     </header>
@@ -26,7 +38,7 @@
     </section>
     <section id="top">
         <div id="portrait">
-        <!--Dynamically generated content here-->
+        <!-- Dynamically generated content here -->
     </div>
     </section>
     <div id="main">
@@ -37,28 +49,28 @@
     <div id="filter-agents">
         <div id="categories-container">
         <div id="controller" class="role-container">
-            <img src="/client//images/ControllerClassSymbol.webp" class="role-logo">
+            <img src="/client/images/ControllerClassSymbol.webp" class="role-logo">
             <br>
             <h3>Controller</h3>
             <button id="select-all-controller">Select All</button>
             <button id="unselect-all-controller">Unselect All</button>
         </div>
         <div id="initiator" class="role-container">
-            <img src="/client//images/InitiatorClassSymbol.webp" class="role-logo">
+            <img src="/client/images/InitiatorClassSymbol.webp" class="role-logo">
             <h3>Initiator</h3>
             <button id="select-all-initiator">Select All</button>
             <button id="unselect-all-initiator">Unselect All</button>
             <br>
         </div>
         <div id="sentinel" class="role-container">
-            <img src="/client//images/SentinelClassSymbol.webp" class="role-logo">
+            <img src="/client/images/SentinelClassSymbol.webp" class="role-logo">
             <h3>Sentinel</h3>
             <button id="select-all-sentinel">Select All</button>
             <button id="unselect-all-sentinel">Unselect All</button>
             <br>
         </div>
         <div id="duelist" class="role-container">
-            <img src="/client//images/4987-duelist-valorant.png" class="role-logo">
+            <img src="/client/images/4987-duelist-valorant.png" class="role-logo">
             <h3>Duelist</h3>
             <button id="select-all-duelist">Select All</button>
             <button id="unselect-all-duelist">Unselect All</button>
@@ -66,6 +78,11 @@
         </div>
         </div>
     </div>
-    <script src="/client/js/at work.js"></script>
+    <div id="agents"></div>
+    <!--
+        We want to wait for the HTML content to load in the browser so let's defer this script until then using the defer keyword
+       (https://www.w3schools.com/tags/att_script_defer.asp)
+    -->
+    <script src="/client/js/index.js" defer></script>
 </body>
 </html>
