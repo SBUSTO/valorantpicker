@@ -1,3 +1,8 @@
+console.log('step one');
+alert('step 1.5');
+console.log('step two');
+
+
 async function app(){
 
 //function to fetch data from the API
@@ -102,6 +107,14 @@ document.getElementById('unselect-all-duelist').addEventListener('click', () => 
 
 const root = document.querySelector('#top');
 
+//ensure there is a container to display selected agent's portrait
+let portraitContainer = document.getElementById('portrait');
+if (!portraitContainer) {
+    portraitContainer = document.createElement('div');
+    portraitContainer.setAttribute('id', 'portrait');
+    root.appendChild(portraitContainer);
+}
+
 // get random agent button
 const randomButton = document.createElement('button');
 randomButton.innerText = 'Get Random Agent';
@@ -112,13 +125,6 @@ randomButton.addEventListener('click', () => {
 
 root.appendChild(randomButton);
 
-//ensure there is a container to display selected agent's portrait
-let portraitContainer = document.getElementById('portrait');
-if (!portraitContainer) {
-    portraitContainer = document.createElement('div');
-    portraitContainer.setAttribute('id', 'portrait');
-    root.appendChild(portraitContainer);
-}
 
     if (selected.length) {
         random = Math.floor(Math.random() * selected.length);
@@ -196,7 +202,7 @@ agents.forEach(agent => {
 root.appendChild(randomButton);
 
 
-for (let index = 0; index < agents.length; index++ ) {
+    for (let index = 0; index < agents.length; index++ ) {
     const agent = agents[index];
     // create a wrapper
     const wrapper = document.createElement("button");
@@ -215,6 +221,7 @@ for (let index = 0; index < agents.length; index++ ) {
     wrapper.addEventListener('click', () => {
         selected.push(agent);
     })
+    
     // add the wrapper to the page
     const agentWrapper = document.querySelector('#agents');
     agentWrapper.appendChild(wrapper);
