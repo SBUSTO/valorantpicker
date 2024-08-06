@@ -1,8 +1,3 @@
-console.log('step one');
-alert('step 1.5');
-console.log('step two');
-
-
 async function app(){
 
 //function to fetch data from the API
