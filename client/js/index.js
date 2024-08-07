@@ -58,7 +58,7 @@ async function App() {
       return [];
     };
 
-
+    return data.filter(agent => agent.isPlayableCharacter);
 
     return data
   };
