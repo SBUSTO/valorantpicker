@@ -217,6 +217,8 @@ async function App() {
       };
     });
 
+
+    
     const roleContainer = roleContainers[agent?.type];
 
     if (roleContainer) {
