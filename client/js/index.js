@@ -135,14 +135,23 @@ async function App() {
 
   const root = document.querySelector("#top");
   const randomButton = document.createElement("button");
-
   randomButton.innerText = "Get Random Agent";
   randomButton.classList.add("random-agent-button");
   randomButton.addEventListener("click", () => {
-    let random;
-    let agent;
+  root.appendChild(randomButton);
 
-    root.appendChild(randomButton);
+
+      //function to save selected agent to localStorage
+  function saveSelectedAgent(agent) {
+    localStorage.setItem('selectedAgent', JSON.stringify(agent));
+  }
+
+  //function to load selected agent from localStorage
+  function loadSelectedAgent() {
+    const savedAgent = localStorage.getItem('selectedAgent');
+    return savedAgent ? JSON.parse(savedAgent) : null;
+  }
+
 
     // ensure there is a container to display selected agent's portrait
     let portraitContainer = document.getElementById("portrait");
@@ -189,6 +198,31 @@ async function App() {
 
   });
 
+  //load and display selected agent when page loads
+  window.addEventListener('load', () => {
+    const savedAgent = loadSelectedAgent();
+    if (savedAgent) {
+      displayAgent(savedAgent);
+    }
+  });
+
+  //event listener for random agent button
+  randomButton.addEventListener('click', () => { 
+    let random;
+    let agent;
+
+    if (selected.length) {
+      random = Math.floor(Math.random() * selected.length);
+      agent = selected[random];
+    } else {
+      random = Math.floor(Math.random() * agents.length);
+      agent = agents[random];
+    }
+
+    saveSelectedAgent(agent);
+    displayAgent(agent);
+  })
+
   agents.forEach((agent) => {
 
     if (agentMetaData[agent.displayName]) {
@@ -218,7 +252,6 @@ async function App() {
     });
 
 
-    
     const roleContainer = roleContainers[agent?.type];
 
     if (roleContainer) {
