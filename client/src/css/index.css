@@ -155,6 +155,26 @@ aside {
 }
 
 
+
+.selectAllBtn {
+    background-color: #33961F;
+    color: white;
+    width: 80px;
+    height: 40px;
+    border-radius: 2px;
+    font-weight: bold;
+}
+
+.unselectAllBtn{
+    background-color: #E77509;
+    color: white;
+    width: 95px;
+    height: 40px;
+    border-radius: 2px;
+    font-weight: bold;
+    margin-left: -11px;
+}
+
 @media (max-width: 768px) {
     #agents button {
         width: calc(100% 2 - 20px);
