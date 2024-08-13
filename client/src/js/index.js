@@ -44,6 +44,11 @@ async function initializeApp() {
     }
   }
 
+  document.getElementById('burgerMenu').addEventListener('click', function() {
+    const navLinks = document.getElementById('navLinks');
+    navLinks.classList.toggle('active');
+  })
+
   const agents = await fetchAgents();
   const selected = [];
 

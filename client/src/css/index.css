@@ -184,10 +184,50 @@ aside {
     #agents button {
         width: calc(100% 2 - 20px);
     }
+    nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        background-color: #343a40;
+    }
+    nav ul.active {
+        display: flex;
+    }
+    #agent-img {
+        margin-left: 0;
+        max-width: 100%;
+    }
+    .random-agent-button {
+        margin-left: 0;
+        width: 100%;
+        max-width: none;
+    }
+    .burger-menu {
+        display: block;
+        top: 20px;
+        background-color: lightgrey;
+        border-radius: 5px;
+        cursor: pointer;
+        
+    }
 }
 
 @media (max-width: 480px) {
-    #agents button {
-        width: 100%;
+    .agents button {
+        width: 50%;
+    } 
+    .role-container {
+        display: grid;
+        
+    }
+
+    nav {
+    }
+
+    .title {
+        font-size: 20px;
+        margin-left: -15px;
     }
 }
